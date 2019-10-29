@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'shopRecipe';
+  displayChoice = 'recipe'
+
+  onNavigate(choice: string) {
+    this.displayChoice = choice;
+  }
 }
