@@ -1,24 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
+import { ShoppingService } from './shopping.service'
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
-import { sharedStylesheetJitUrl } from '@angular/compiler';
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
-  styleUrls: ['./shopping-list.component.css']
+  styleUrls: ['./shopping-list.component.css'],
 })
 export class ShoppingListComponent implements OnInit {
-  ingredients: Ingredient[] = [
-    new Ingredient('Apples', 5),
-    new Ingredient('Walnuts', 10)
-  ];
-  constructor() { }
+  ingredients: Ingredient[];
+
+  constructor(
+    private shoppingService: ShoppingService
+  ) { }
 
   ngOnInit() {
-  }
-
-  onIngredientAdded(ingredient: Ingredient) {
-    this.ingredients.push(ingredient);
+    this.ingredients = this.shoppingService.getIngredients();
+    this.shoppingService.changedIngredients.subscribe((ingredients: Ingredient[]) => {
+      this.ingredients = ingredients;
+    }
+    );
   }
 
 }
